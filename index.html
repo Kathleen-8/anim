@@ -1,55 +1,46 @@
 <!doctype html>
 <html lang="ru">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>anim</title>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
 
-  <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
+<script type="module"
+src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js">
+</script>
 
-  <style>
-    body { margin: 0; }
-    model-viewer {
-      width: 100vw;
-      height: 100vh;
-      background: #ffffff;
-    }
-  </style>
+<style>
+body { margin:0; }
+model-viewer {
+width:100vw;
+height:100vh;
+background:white;
+}
+</style>
 </head>
 
 <body>
 
-  <model-viewer
-    id="mv"
-    src="sneg-a.glb"
-    camera-controls
-    autoplay
-    animation-name="11"
-    animation-crossfade-duration="0"
-  ></model-viewer>
+<model-viewer
+id="mv"
+camera-controls
+autoplay
+animation-name="11"
+animation-crossfade-duration="800"
+src="sneg-a.glb">
+</model-viewer>
 
-  <script>
-    (() => {
-      const mv = document.getElementById('mv');
+<script>
+(() => {
+const modelViewer = document.querySelector('#mv');
 
-      const SWITCH_EVERY = 4000; // 4 секунды каждая анимация
-      const A1 = '11';
-      const A2 = '22';
-
-      mv.addEventListener('load', () => {
-        // стартуем с качания
-        mv.animationName = A1;
-        mv.currentTime = 0;
-        mv.play();
-
-        setInterval(() => {
-          mv.animationName = (mv.animationName === A1) ? A2 : A1;
-          mv.currentTime = 0;
-          mv.play();
-        }, SWITCH_EVERY);
-      });
-    })();
-  </script>
+self.setInterval(() => {
+modelViewer.animationName =
+modelViewer.animationName === "11"
+? "22"
+: "11";
+}, 4000);
+})();
+</script>
 
 </body>
 </html>
