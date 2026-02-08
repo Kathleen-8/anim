@@ -32,12 +32,11 @@
     (() => {
       const mv = document.getElementById('mv');
 
-      const SWITCH_EVERY = 3000; // 3 секунды каждая анимация
+      const SWITCH_EVERY = 4000; // 4 секунды каждая анимация
       const A1 = '11';
       const A2 = '22';
 
       mv.addEventListener('load', () => {
-
         // стартуем с качания
         mv.animationName = A1;
         mv.currentTime = 0;
@@ -48,7 +47,6 @@
           mv.currentTime = 0;
           mv.play();
         }, SWITCH_EVERY);
-
       });
     })();
   </script>
