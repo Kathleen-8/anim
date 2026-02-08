@@ -35,7 +35,7 @@
     camera-controls
     autoplay
     animation-name="11"
-    animation-crossfade-duration="1000"
+    animation-crossfade-duration="150"
   ></model-viewer>
 
   <script>
@@ -43,7 +43,7 @@
       const mv = document.getElementById('mv');
       const hud = document.getElementById('hud');
 
-      const SWITCH_EVERY = 3000; // 3 секунды
+      const SWITCH_EVERY = 3000;
       const A1 = '11';
       const A2 = '22';
 
@@ -55,19 +55,17 @@
       }
 
       mv.addEventListener('load', () => {
-        // принудительно стартуем 11
         mv.animationName = A1;
         mv.play();
         show();
 
         setInterval(() => {
           mv.animationName = (mv.animationName === A1) ? A2 : A1;
-          mv.currentTime = 0; // перезапуск клипа
+          mv.currentTime = 0;
           mv.play();
           show();
         }, SWITCH_EVERY);
 
-        // обновляем HUD иногда, чтобы было видно что время бежит
         setInterval(show, 200);
       });
     })();
