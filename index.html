@@ -4,8 +4,15 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 
+<title>Postprocessing Bloom</title>
+
 <script type="module"
 src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js">
+</script>
+
+<!-- Postprocessing библиотека -->
+<script type="module"
+src="https://unpkg.com/@google/model-viewer-effects/dist/model-viewer-effects.min.js">
 </script>
 
 <style>
@@ -21,26 +28,22 @@ background:white;
 <body>
 
 <model-viewer
-id="mv"
+src="sneg-a.glb"
 camera-controls
 autoplay
 animation-name="11"
-animation-crossfade-duration="800"
-src="sneg-a.glb">
+animation-crossfade-duration="0">
+
+<!-- Эффекты -->
+<effect-composer>
+<bloom-effect
+intensity="1.2"
+luminance-threshold="0.3"
+luminance-smoothing="0.6">
+</bloom-effect>
+</effect-composer>
+
 </model-viewer>
-
-<script>
-(() => {
-const modelViewer = document.querySelector('#mv');
-
-self.setInterval(() => {
-modelViewer.animationName =
-modelViewer.animationName === "11"
-? "22"
-: "11";
-}, 2200);
-})();
-</script>
 
 </body>
 </html>
