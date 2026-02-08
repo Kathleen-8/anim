@@ -8,26 +8,16 @@
   <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
 
   <style>
-    body { margin: 0; font-family: Arial, sans-serif; }
-    model-viewer { width: 100vw; height: 100vh; background: #fff; }
-    #hud{
-      position: fixed;
-      top: 10px;
-      left: 10px;
-      padding: 10px 12px;
-      background: rgba(0,0,0,0.75);
-      color: #fff;
-      border-radius: 10px;
-      z-index: 9999;
-      font-size: 14px;
-      white-space: pre-line;
+    body { margin: 0; }
+    model-viewer {
+      width: 100vw;
+      height: 100vh;
+      background: #ffffff;
     }
   </style>
 </head>
 
 <body>
-
-  <div id="hud">Загрузка…</div>
 
   <model-viewer
     id="mv"
@@ -35,38 +25,26 @@
     camera-controls
     autoplay
     animation-name="11"
-    animation-crossfade-duration="150"
+    animation-crossfade-duration="0"
   ></model-viewer>
 
   <script>
     (() => {
       const mv = document.getElementById('mv');
-      const hud = document.getElementById('hud');
-
-      const SWITCH_EVERY = 3000;
+      const SWITCH_EVERY = 3000; // каждые 3 секунды
       const A1 = '11';
       const A2 = '22';
 
-      function show() {
-        hud.textContent =
-          'Сейчас: ' + mv.animationName + '\n' +
-          'Доступно: ' + (mv.availableAnimations ? mv.availableAnimations.join(', ') : '...') + '\n' +
-          'Время: ' + (mv.currentTime ? mv.currentTime.toFixed(2) : '0.00');
-      }
-
       mv.addEventListener('load', () => {
         mv.animationName = A1;
+        mv.currentTime = 0;
         mv.play();
-        show();
 
         setInterval(() => {
           mv.animationName = (mv.animationName === A1) ? A2 : A1;
           mv.currentTime = 0;
           mv.play();
-          show();
         }, SWITCH_EVERY);
-
-        setInterval(show, 200);
       });
     })();
   </script>
