@@ -3,44 +3,75 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>anim</title>
 
-  <title>Animation Test</title>
-
-  <script type="module"
-    src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js">
-  </script>
+  <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
 
   <style>
-    body { margin:0; }
-    model-viewer {
-      width:100vw;
-      height:100vh;
-      background:white;
+    body { margin: 0; font-family: Arial, sans-serif; }
+    model-viewer { width: 100vw; height: 100vh; background: #fff; }
+    #hud{
+      position: fixed;
+      top: 10px;
+      left: 10px;
+      padding: 10px 12px;
+      background: rgba(0,0,0,0.75);
+      color: #fff;
+      border-radius: 10px;
+      z-index: 9999;
+      font-size: 14px;
+      white-space: pre-line;
     }
   </style>
 </head>
 
 <body>
 
-<model-viewer
-  id="mv"
-  src="sneg-a.glb"
-  autoplay
-  animation-name="11"
-  animation-crossfade-duration="1000"
-  camera-controls
-></model-viewer>
+  <div id="hud">Загрузка…</div>
 
-<script>
-const mv = document.getElementById("mv");
+  <model-viewer
+    id="mv"
+    src="sneg-a.glb"
+    camera-controls
+    autoplay
+    animation-name="11"
+    animation-crossfade-duration="1000"
+  ></model-viewer>
 
-mv.addEventListener("load", () => {
-  setInterval(() => {
-    mv.animationName =
-      mv.animationName === "11" ? "22" : "11";
-  }, 3000);
-});
-</script>
+  <script>
+    (() => {
+      const mv = document.getElementById('mv');
+      const hud = document.getElementById('hud');
+
+      const SWITCH_EVERY = 3000; // 3 секунды
+      const A1 = '11';
+      const A2 = '22';
+
+      function show() {
+        hud.textContent =
+          'Сейчас: ' + mv.animationName + '\n' +
+          'Доступно: ' + (mv.availableAnimations ? mv.availableAnimations.join(', ') : '...') + '\n' +
+          'Время: ' + (mv.currentTime ? mv.currentTime.toFixed(2) : '0.00');
+      }
+
+      mv.addEventListener('load', () => {
+        // принудительно стартуем 11
+        mv.animationName = A1;
+        mv.play();
+        show();
+
+        setInterval(() => {
+          mv.animationName = (mv.animationName === A1) ? A2 : A1;
+          mv.currentTime = 0; // перезапуск клипа
+          mv.play();
+          show();
+        }, SWITCH_EVERY);
+
+        // обновляем HUD иногда, чтобы было видно что время бежит
+        setInterval(show, 200);
+      });
+    })();
+  </script>
 
 </body>
 </html>
