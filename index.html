@@ -1,49 +1,107 @@
 <!doctype html>
 <html lang="ru">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
 
-<title>Postprocessing Bloom</title>
+  <title>Sneg Animations Control</title>
 
-<script type="module"
-src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js">
-</script>
+  <script type="module"
+    src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js">
+  </script>
 
-<!-- Postprocessing библиотека -->
-<script type="module"
-src="https://unpkg.com/@google/model-viewer-effects/dist/model-viewer-effects.min.js">
-</script>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #f2f2f2;
+    }
 
-<style>
-body { margin:0; }
-model-viewer {
-width:100vw;
-height:100vh;
-background:white;
-}
-</style>
+    #controls {
+      position: fixed;
+      top: 10px;
+      left: 10px;
+      z-index: 10;
+      background: white;
+      padding: 10px;
+      border-radius: 8px;
+      box-shadow: 0 0 5px rgba(0,0,0,0.2);
+    }
+
+    button {
+      margin: 5px;
+      padding: 6px 12px;
+      cursor: pointer;
+    }
+
+    model-viewer {
+      width: 100vw;
+      height: 100vh;
+      background: white;
+    }
+  </style>
 </head>
 
 <body>
 
+<div id="controls">
+  <button id="btn1">Качание</button>
+  <button id="btn2">Прыжок</button>
+</div>
+
 <model-viewer
-src="sneg-a.glb"
-camera-controls
-autoplay
-animation-name="11"
-animation-crossfade-duration="0">
-
-<!-- Эффекты -->
-<effect-composer>
-<bloom-effect
-intensity="10"
-luminance-threshold="0.3"
-luminance-smoothing="0.6">
-</bloom-effect>
-</effect-composer>
-
+  id="mv"
+  src="sneg-a.glb"
+  camera-controls
+  autoplay
+  animation-crossfade-duration="0"
+>
 </model-viewer>
+
+<script>
+(() => {
+
+  const mv = document.getElementById('mv');
+  const btn1 = document.getElementById('btn1');
+  const btn2 = document.getElementById('btn2');
+
+  let animations = [];
+
+  // Когда модель загрузилась
+  mv.addEventListener('load', () => {
+
+    animations = mv.availableAnimations;
+
+    console.log('Animations:', animations);
+
+    // Стартуем с первой анимации
+    if (animations.length >= 1) {
+      mv.animationName = animations[0];
+      mv.play();
+    }
+
+  });
+
+  // Кнопка "Качание"
+  btn1.addEventListener('click', () => {
+    if (animations.length >= 1) {
+      mv.animationName = animations[0]; // "11"
+      mv.currentTime = 0;
+      mv.play();
+    }
+  });
+
+  // Кнопка "Прыжок"
+  btn2.addEventListener('click', () => {
+    if (animations.length >= 2) {
+      mv.animationName = animations[1]; // "22"
+      mv.currentTime = 0;
+      mv.play();
+    }
+  });
+
+})();
+</script>
 
 </body>
 </html>
